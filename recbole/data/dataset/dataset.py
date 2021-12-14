@@ -680,7 +680,6 @@ class Dataset(object):
 
         user_inter_num_interval = self._parse_intervals_str(self.config['user_inter_num_interval'])
         item_inter_num_interval = self._parse_intervals_str(self.config['item_inter_num_interval'])
-
         user_inter_num = Counter(self.inter_feat[self.uid_field].values) if user_inter_num_interval else Counter()
         item_inter_num = Counter(self.inter_feat[self.iid_field].values) if item_inter_num_interval else Counter()
 
@@ -877,7 +876,8 @@ class Dataset(object):
         self.set_field_property(self.label_field, FeatureType.FLOAT, FeatureSource.INTERACTION, 1)
         for field, value in threshold.items():
             if field in self.inter_feat:
-                self.inter_feat[self.label_field] = (self.inter_feat[field] >= value).astype(int)
+                # TODO: Shelly have change from self.inter_feat[field] >= value to self.inter_feat[field] <= value
+                self.inter_feat[self.label_field] = (self.inter_feat[field] <= value).astype(int)
             else:
                 raise ValueError(f'Field [{field}] not in inter_feat.')
             if field != self.label_field:

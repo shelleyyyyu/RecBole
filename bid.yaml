@@ -52,7 +52,7 @@ seq_len: ~
 
 # Label for Point-wise DataLoader
 LABEL_FIELD: label
-threshold: ~
+threshold: {'rating':1}
 
 # NegSample Prefix for Pair-wise DataLoader
 NEG_PREFIX: neg_
