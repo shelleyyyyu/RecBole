@@ -1371,7 +1371,8 @@ class Dataset(object):
 
         if group_by is None:
             tot_cnt = self.__len__()
-            split_ids = self._calcu_split_ids(tot=tot_cnt, ratios=ratios)
+            # split_ids = self._calcu_split_ids(tot=tot_cnt, ratios=ratios)
+            split_ids = [len(self.inter_feat.user_id)-2000, len(self.inter_feat.user_id)-1000]
             next_index = [range(start, end) for start, end in zip([0] + split_ids, split_ids + [tot_cnt])]
         else:
             grouped_inter_feat_index = self._grouped_index(self.inter_feat[group_by].numpy())
@@ -1473,7 +1474,11 @@ class Dataset(object):
         # ordering
         ordering_args = self.config['eval_args']['order']
         if ordering_args == 'RO':
-            self.shuffle()
+            # print(self.inter_feat.user_id[:10])
+            # self.shuffle()
+            print('no shuffle')
+            # print(self.inter_feat.user_id[:10])
+            # exit()
         elif ordering_args == 'TO':
             self.sort(by=self.time_field)
         else:
@@ -1502,7 +1507,30 @@ class Dataset(object):
             datasets = self.leave_one_out(group_by=self.uid_field, leave_one_mode=split_args['LS'])
         else:
             raise NotImplementedError(f'The splitting_method [{split_mode}] has not been implemented.')
-
+        # print((datasets[0].inter_feat.user_id[0]), (datasets[0].inter_feat.item_id[0]),
+        #       (datasets[0].inter_feat.label[0]))
+        # print((datasets[0].inter_feat.user_id[1]), (datasets[0].inter_feat.item_id[1]),
+        #       (datasets[0].inter_feat.label[1]))
+        # print((datasets[0].inter_feat.user_id[2]), (datasets[0].inter_feat.item_id[2]),
+        #       (datasets[0].inter_feat.label[2]))
+        # print()
+        # print((datasets[1].inter_feat.user_id[0]), (datasets[1].inter_feat.item_id[0]),
+        #       (datasets[1].inter_feat.label[0]))
+        # print((datasets[1].inter_feat.user_id[1]), (datasets[1].inter_feat.item_id[1]),
+        #       (datasets[1].inter_feat.label[1]))
+        # print((datasets[1].inter_feat.user_id[2]), (datasets[1].inter_feat.item_id[2]),
+        #       (datasets[1].inter_feat.label[2]))
+        # print()
+        # print((datasets[2].inter_feat.user_id[0]), (datasets[2].inter_feat.item_id[0]),
+        #       (datasets[2].inter_feat.label[0]))
+        # print((datasets[2].inter_feat.user_id[1]), (datasets[2].inter_feat.item_id[1]),
+        #       (datasets[2].inter_feat.label[1]))
+        # print((datasets[2].inter_feat.user_id[2]), (datasets[2].inter_feat.item_id[2]),
+        #       (datasets[2].inter_feat.label[2]))
+        # print(len(datasets[0].inter_feat.user_id))
+        # print(len(datasets[1].inter_feat.user_id))
+        # print(len(datasets[2].inter_feat.user_id))
+        # exit()
         return datasets
 
     def save(self):

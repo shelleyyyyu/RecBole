@@ -25,7 +25,7 @@ weight_decay: 0.0
 # evaluation settings
 eval_args: 
   split: {'RS':[0.8,0.1,0.1]}
-  group_by: user
+  group_by: none
   order: RO
   mode: full
 repeatable: False
